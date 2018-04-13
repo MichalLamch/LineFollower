@@ -50,7 +50,9 @@ public class Bluetooth extends AppCompatActivity {
     private ArrayList<Urzadzenia> urzadzenia = new ArrayList<Urzadzenia>();
     private BluetoothSocket mBluetoothSocket;
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    private BluetoothDevice mBluetoothDevice;
+    private BluetoothDevice mBluetoothDevice = null;
+    private MyBluetoothService mMyBluetoothService = null;
+    private MyBluetoothService.ConnectedThread mConnectedThread = null;
     // #defines for identifying shared types between calling functions
 
     @Override
@@ -81,7 +83,6 @@ public class Bluetooth extends AppCompatActivity {
                 //startActivity(startActivityCustomList);
 
 
-
             }
         });
         int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
@@ -89,7 +90,7 @@ public class Bluetooth extends AppCompatActivity {
                 new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                 MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
 
-        @SuppressLint("HandlerLeak") Handler handler = new Handler(){
+        @SuppressLint("HandlerLeak") Handler handler = new Handler() {
 
             @Override
             public void handleMessage(Message msg) {
@@ -118,7 +119,7 @@ public class Bluetooth extends AppCompatActivity {
         if (mBluetoothAdapter != null) {
             mBluetoothAdapter.cancelDiscovery();
         }
-        if(mReceiver.getAbortBroadcast()) {
+        if (mReceiver.getAbortBroadcast()) {
             this.unregisterReceiver(mReceiver);
         }
     }
@@ -163,26 +164,34 @@ public class Bluetooth extends AppCompatActivity {
             registerReceiver(mReceiver, filter);
             mBluetoothAdapter.startDiscovery();
         }
-        if (view.getId() == R.id.button11){
+        if (view.getId() == R.id.button11) {
             mBluetoothAdapter.cancelDiscovery();
-            mBluetoothDevice =  mBluetoothAdapter.getRemoteDevice(tv2.getText().toString());
+            mBluetoothDevice = mBluetoothAdapter.getRemoteDevice(tv2.getText().toString());
+            showToast("Laczenie z: " + tv1.getText());
             try {
                 mBluetoothSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(MY_UUID);
-
+                mBluetoothSocket.connect();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            MyBluetoothService mMyBluetoothService = new MyBluetoothService();
-            MyBluetoothService.ConnectedThread mConnectedThread = mMyBluetoothService.new ConnectedThread(mBluetoothSocket);
-            mConnectedThread.run();
+            mMyBluetoothService = new MyBluetoothService();
+            mConnectedThread = mMyBluetoothService.new ConnectedThread(mBluetoothSocket);
+            (new Thread(mConnectedThread)).start();
+            if(mBluetoothSocket.isConnected()){
+                showToast("Połączono!");
+                Intent i =  new Intent(this, MainActivity.class);
+                startActivity(i);
 
+            } else {
+                showToast("Błąd połączenia");
+            }
 
 
         }
-        if (view.getId() == R.id.button10){
+        if (view.getId() == R.id.button10) {
             byte[] start = {1};
+            mConnectedThread.write(start);
 
-            //mConnectedThread.write(start);
         }
 
     }
@@ -206,6 +215,7 @@ public class Bluetooth extends AppCompatActivity {
             }
         }
     };
+
     private void showToast(String message) {
         Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
     }

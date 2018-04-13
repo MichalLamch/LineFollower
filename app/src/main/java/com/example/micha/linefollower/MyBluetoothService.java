@@ -14,7 +14,7 @@ import java.io.OutputStream;
  * Created by micha on 08.04.2018.
  */
 
-public class MyBluetoothService {
+class MyBluetoothService {
     private static final String TAG = "MY_APP_DEBUG_TAG";
     private Handler mHandler; // handler that gets info from Bluetooth service
 
@@ -59,36 +59,23 @@ public class MyBluetoothService {
         public void run() {
             mmBuffer = new byte[1024];
             int numBytes; // bytes returned from read()
-            try {
-                // Connect to the remote device through the socket. This call blocks
-                // until it succeeds or throws an exception.
-                mmSocket.connect();
-            } catch (IOException connectException) {
-                // Unable to connect; close the socket and return.
-                try {
-                    mmSocket.close();
-                } catch (IOException closeException) {
-                    Log.e(TAG, "Could not close the client socket", closeException);
-                }
-            }
-                // Keep listening to the InputStream until an exception occurs.
-                /*while (true) {
-                    try {
-                        // Read from the InputStream.
-                        numBytes = mmInStream.read(mmBuffer);
-                        // Send the obtained bytes to the UI activity.
-                        Message readMsg = mHandler.obtainMessage(
-                                MessageConstants.MESSAGE_READ, numBytes, -1,
-                                mmBuffer);
-                        readMsg.sendToTarget();
-                    } catch (IOException e) {
-                        Log.d(TAG, "Input stream was disconnected", e);
-                        break;
-                    }
-                }
-                */
-            }
 
+            // Keep listening to the InputStream until an exception occurs.
+            while (true) {
+                try {
+                    // Read from the InputStream.
+                    numBytes = mmInStream.read(mmBuffer);
+                    // Send the obtained bytes to the UI activity.
+                    Message readMsg = mHandler.obtainMessage(
+                            MessageConstants.MESSAGE_READ, numBytes, -1,
+                            mmBuffer);
+                    readMsg.sendToTarget();
+                } catch (IOException e) {
+                    Log.d(TAG, "Input stream was disconnected", e);
+                    break;
+                }
+            }
+        }
 
         // Call this from the main activity to send data to the remote device.
         public void write(byte[] bytes) {
