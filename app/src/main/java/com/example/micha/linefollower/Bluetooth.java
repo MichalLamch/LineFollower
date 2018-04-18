@@ -51,8 +51,7 @@ public class Bluetooth extends AppCompatActivity {
     private BluetoothSocket mBluetoothSocket;
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     private BluetoothDevice mBluetoothDevice = null;
-    private MyBluetoothService mMyBluetoothService = null;
-    private MyBluetoothService.ConnectedThread mConnectedThread = null;
+    private GenericApplication mGenericApplication = null;
     // #defines for identifying shared types between calling functions
 
     @Override
@@ -90,14 +89,6 @@ public class Bluetooth extends AppCompatActivity {
                 new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                 MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
 
-        @SuppressLint("HandlerLeak") Handler handler = new Handler() {
-
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-            }
-
-        };
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -122,6 +113,7 @@ public class Bluetooth extends AppCompatActivity {
         if (mReceiver.getAbortBroadcast()) {
             this.unregisterReceiver(mReceiver);
         }
+
     }
 
     public void obslugaKliknieciaBluetooth(View view) {
@@ -167,20 +159,22 @@ public class Bluetooth extends AppCompatActivity {
         if (view.getId() == R.id.button11) {
             mBluetoothAdapter.cancelDiscovery();
             mBluetoothDevice = mBluetoothAdapter.getRemoteDevice(tv2.getText().toString());
-            showToast("Laczenie z: " + tv1.getText());
+            //showToast("Laczenie z: " + tv1.getText());
             try {
                 mBluetoothSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(MY_UUID);
                 mBluetoothSocket.connect();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            mMyBluetoothService = new MyBluetoothService();
-            mConnectedThread = mMyBluetoothService.new ConnectedThread(mBluetoothSocket);
-            (new Thread(mConnectedThread)).start();
+
+            //mMyBluetoothService = new MyBluetoothService();
+            //mConnectedThread = mMyBluetoothService.new ConnectedThread(mBluetoothSocket);
+            //(new Thread(mConnectedThread)).start();
             if(mBluetoothSocket.isConnected()){
+                ((GenericApplication)this.getApplicationContext()).mMyBluetoothService.StartConnectedThread(mBluetoothSocket);
                 showToast("Połączono!");
-                Intent i =  new Intent(this, MainActivity.class);
-                startActivity(i);
+                //Intent i =  new Intent(this, MainActivity.class);
+                //startActivity(i);
 
             } else {
                 showToast("Błąd połączenia");
@@ -189,8 +183,11 @@ public class Bluetooth extends AppCompatActivity {
 
         }
         if (view.getId() == R.id.button10) {
-            byte[] start = {1};
-            mConnectedThread.write(start);
+            byte[] start = {1, 1, 10, 0};
+            Log.d("BletoothWrite", "Wysłano1");
+            ((GenericApplication)this.getApplicationContext()).mMyBluetoothService.SendMessageToDevice(start);
+
+
 
         }
 
