@@ -89,13 +89,12 @@ public class Bluetooth extends AppCompatActivity {
                 new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                 MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
 
-
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     protected void onResume() {
+        // Zmiana koloru symbolu Bluetooth
         if (mBluetoothAdapter.isEnabled()) {
             b5.setBackgroundColor(getResources().getColor(R.color.zielony));
         } else {
@@ -117,6 +116,7 @@ public class Bluetooth extends AppCompatActivity {
     }
 
     public void obslugaKliknieciaBluetooth(View view) {
+        // Kliknięcie "Włącz Bluetooth"
         if (view.getId() == R.id.button5) {
             if (mBluetoothAdapter == null) {
                 Log.d("Bluetooth", "Błąd połączenia z hardware'm");
@@ -128,6 +128,7 @@ public class Bluetooth extends AppCompatActivity {
                 Log.d("Bluetooth", "Połączono z hardware'm");
             }
         }
+        // "Pokaż sparowane urządzenia"
         if (view.getId() == R.id.button6) {
             urzadzenia.clear();
             mBluetoothAdapter.cancelDiscovery();
@@ -145,6 +146,7 @@ public class Bluetooth extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         }
+        // "Wykryj inne urządzenie"
         if (view.getId() == R.id.button7) {
             Log.d("Bluetooth", "Szukam innych urządzeń (ok 12s)");
             urzadzenia.clear();
@@ -156,43 +158,34 @@ public class Bluetooth extends AppCompatActivity {
             registerReceiver(mReceiver, filter);
             mBluetoothAdapter.startDiscovery();
         }
+        // "Połącz"
         if (view.getId() == R.id.button11) {
             mBluetoothAdapter.cancelDiscovery();
             mBluetoothDevice = mBluetoothAdapter.getRemoteDevice(tv2.getText().toString());
-            //showToast("Laczenie z: " + tv1.getText());
             try {
                 mBluetoothSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(MY_UUID);
                 mBluetoothSocket.connect();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            //mMyBluetoothService = new MyBluetoothService();
-            //mConnectedThread = mMyBluetoothService.new ConnectedThread(mBluetoothSocket);
-            //(new Thread(mConnectedThread)).start();
             if(mBluetoothSocket.isConnected()){
                 ((GenericApplication)this.getApplicationContext()).mMyBluetoothService.StartConnectedThread(mBluetoothSocket);
                 showToast("Połączono!");
-                //Intent i =  new Intent(this, MainActivity.class);
-                //startActivity(i);
-
+                Intent i =  new Intent(this, MainActivity.class);
+                startActivity(i);
             } else {
                 showToast("Błąd połączenia");
             }
 
 
         }
+        // "Rozłącz"
         if (view.getId() == R.id.button10) {
-            byte[] start = {1, 1, 10, 0};
-            Log.d("BletoothWrite", "Wysłano1");
-            ((GenericApplication)this.getApplicationContext()).mMyBluetoothService.SendMessageToDevice(start);
-
-
-
+            ((GenericApplication)this.getApplicationContext()).mMyBluetoothService.StopConnectedThread();
         }
 
     }
-
+    // Receiver - w przypadku znalezienie nowego urządzenia - automatyczne dodanie do listy
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -212,7 +205,7 @@ public class Bluetooth extends AppCompatActivity {
             }
         }
     };
-
+    // Toast ;)
     private void showToast(String message) {
         Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
     }
