@@ -19,7 +19,7 @@ import static android.content.ContentValues.TAG;
 /**
  * Created by micha on 15.04.2018.
  */
-
+// Aplikacja generyczna przechowująca obiekt MyBluetoothService istniejący przez cały czas trwania aplikacji
 public class GenericApplication extends Application {
     public MyBluetoothService mMyBluetoothService;
     @Override

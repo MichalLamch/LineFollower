@@ -3,7 +3,7 @@ package com.example.micha.linefollower;
 /**
  * Created by micha on 27.03.2018.
  */
-
+// Klasa reprezentująca wyszukane urządzenie Bluetooth
 public class Urzadzenia {
     public Urzadzenia(String n, String m)
     {

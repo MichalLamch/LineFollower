@@ -16,25 +16,41 @@ import java.io.OutputStream;
 
 public class MyBluetoothService {
     private static final String TAG = "MY_APP_DEBUG_TAG";
-    private Handler mHandler; // handler that gets info from Bluetooth service
+    private MyHandler mMyHandler; // handler that gets info from Bluetooth service
     private ConnectedThread mConnectedThread;
     // Defines several constants used when transmitting messages between the
     // service and the UI.
     private interface MessageConstants {
         public static final int MESSAGE_READ = 0;
-        public static final int MESSAGE_WRITE = 1;
-        public static final int MESSAGE_TOAST = 2;
-
         // ... (Add other message types here as needed.)
     }
+    public void setActivityViewContract(GenericActivitySignalContract activity) {
+        mMyHandler.setActivityViewContract(activity);
+    }
+    // Start wątku obsługi wiadomości Bluetooth
     public void StartConnectedThread(BluetoothSocket mBluetoothSocket){
         mConnectedThread = new ConnectedThread(mBluetoothSocket);
         (new Thread(mConnectedThread)).start();
+        this.mMyHandler= new MyHandler();
     }
+    // Stop wątku
+    public void StopConnectedThread(){
+        if(!(mConnectedThread==null)){
+            mConnectedThread.cancel();
+        }
+    }
+    // Sprawdzanie połączenia z urządzeniem
+    public boolean checkConnection(){
+        if(!(mConnectedThread==null)){
+        return mConnectedThread.ifSocketIsConnected();}
+        else return false;
+    }
+    // Wysłanie wiadomości do mikrokontrolera
     public void SendMessageToDevice(byte[] message){
             mConnectedThread.write(message);
 
     }
+    // Klasa ConnectedThread - wątek obsługi wiadomości
     private class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
@@ -64,7 +80,7 @@ public class MyBluetoothService {
         }
 
         public void run() {
-            mmBuffer = new byte[1024];
+            mmBuffer = new byte[100];
             int numBytes; // bytes returned from read()
 
             // Keep listening to the InputStream until an exception occurs.
@@ -73,9 +89,8 @@ public class MyBluetoothService {
                     // Read from the InputStream.
                     numBytes = mmInStream.read(mmBuffer);
                     // Send the obtained bytes to the UI activity.
-                    Message readMsg = mHandler.obtainMessage(
-                            MessageConstants.MESSAGE_READ, numBytes, -1,
-                            mmBuffer);
+                    Message readMsg = mMyHandler.obtainMessage(
+                            MessageConstants.MESSAGE_READ, numBytes, -1, mmBuffer);
                     readMsg.sendToTarget();
                 } catch (IOException e) {
                     Log.d(TAG, "Input stream was disconnected", e);
@@ -89,21 +104,8 @@ public class MyBluetoothService {
             try {
                 mmOutStream.write(bytes);
                 Log.d("BletoothWrite", "Wysłano");
-                // Share the sent message with the UI activity.
-                //Message writtenMsg = mHandler.obtainMessage(
-                //        MessageConstants.MESSAGE_WRITE, -1, -1, mmBuffer);
-                //writtenMsg.sendToTarget();
             } catch (IOException e) {
                 Log.e(TAG, "Error occurred when sending data", e);
-
-                // Send a failure message back to the activity.
-                //Message writeErrorMsg =
-                //        mHandler.obtainMessage(MessageConstants.MESSAGE_TOAST);
-                //Bundle bundle = new Bundle();
-                //bundle.putString("toast",
-                 //       "Couldn't send data to the other device");
-                //writeErrorMsg.setData(bundle);
-                //mHandler.sendMessage(writeErrorMsg);
             }
         }
 
@@ -114,6 +116,10 @@ public class MyBluetoothService {
             } catch (IOException e) {
                 Log.e(TAG, "Could not close the connect socket", e);
             }
+        }
+
+        public boolean ifSocketIsConnected(){
+            return mmSocket.isConnected();
         }
     }
 }

@@ -26,13 +26,6 @@
             android:text="@string/bluetooth" />
 
         <Button
-            android:id="@+id/button2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="obslugaKlikniecia"
-            android:text="@string/parametry" />
-
-        <Button
             android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,6 +38,8 @@
             android:layout_height="wrap_content"
             android:onClick="obslugaKlikniecia"
             android:text="@string/jazda_manual" />
+
+
     </LinearLayout>
 
     <ImageView

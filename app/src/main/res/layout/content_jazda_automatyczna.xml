@@ -8,4 +8,433 @@
     tools:context="com.example.micha.linefollower.JazdaAutomatyczna"
     tools:showIn="@layout/activity_jazda_automatyczna">
 
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/predkosc"
+                    style="@style/parametr"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="Prędkość" />
+
+                <EditText
+                    android:id="@+id/predkosc_wpisz"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="Pręd"
+                    android:inputType="number" />
+
+
+                <TextView
+                    android:id="@+id/predkosc_odczytane"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="0" />
+
+                <Button
+                    android:id="@+id/predkosc_sprawdz"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="obslugaKlikniecia"
+                    android:text="SPRAWDŹ" />
+
+                <Button
+                    android:id="@+id/predkosc_ok"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="obslugaKlikniecia"
+                    android:text="OK" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/prog"
+                    style="@style/parametr"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="Próg" />
+
+                <EditText
+                    android:id="@+id/prog_wpisz"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="Próg"
+                    android:inputType="number" />
+
+
+                <TextView
+                    android:id="@+id/prog_odczytane"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="0" />
+
+                <Button
+                    android:onClick="obslugaKlikniecia"
+                    android:id="@+id/prog_sprawdz"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="SPRAWDŹ" />
+
+                <Button
+                    android:onClick="obslugaKlikniecia"
+                    android:id="@+id/prog_ok"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="OK" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/kp"
+                    style="@style/parametr"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="Kp" />
+
+                <EditText
+                    android:id="@+id/kp_wpisz"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="Kp"
+                    android:inputType="number" />
+
+
+                <TextView
+                    android:id="@+id/kp_odczytane"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="0" />
+
+                <Button
+                    android:onClick="obslugaKlikniecia"
+                    android:id="@+id/kp_sprawdz"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="SPRAWDŹ" />
+
+                <Button
+                    android:onClick="obslugaKlikniecia"
+                    android:id="@+id/kp_ok"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="OK" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/kd"
+                    style="@style/parametr"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="Kd" />
+
+                <EditText
+                    android:id="@+id/kd_wpisz"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="Kd"
+                    android:inputType="number" />
+
+
+                <TextView
+                    android:id="@+id/kd_odczytane"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="0" />
+
+                <Button
+                    android:onClick="obslugaKlikniecia"
+                    android:id="@+id/kd_sprawdz"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="SPRAWDŹ" />
+
+                <Button
+                    android:onClick="obslugaKlikniecia"
+                    android:id="@+id/kd_ok"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="OK" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/w1"
+                    style="@style/parametr"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="Waga 1" />
+
+                <EditText
+                    android:id="@+id/w1_wpisz"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="W1"
+                    android:inputType="number" />
+
+
+                <TextView
+                    android:id="@+id/w1_odczytane"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="0" />
+
+                <Button
+                    android:onClick="obslugaKlikniecia"
+                    android:id="@+id/w1_sprawdz"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="SPRAWDŹ" />
+
+                <Button
+                    android:onClick="obslugaKlikniecia"
+                    android:id="@+id/w1_ok"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="OK" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/w2"
+                    style="@style/parametr"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="Waga 2" />
+
+                <EditText
+                    android:id="@+id/w2_wpisz"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="W2"
+                    android:inputType="number" />
+
+
+                <TextView
+                    android:id="@+id/w2_odczytane"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="0" />
+
+                <Button
+                    android:onClick="obslugaKlikniecia"
+                    android:id="@+id/w2_sprawdz"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="SPRAWDŹ" />
+
+                <Button
+                    android:onClick="obslugaKlikniecia"
+                    android:id="@+id/w2_ok"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="OK" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/w3"
+                    style="@style/parametr"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="Waga 3" />
+
+                <EditText
+                    android:id="@+id/w3_wpisz"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="W3"
+                    android:inputType="number" />
+
+
+                <TextView
+                    android:id="@+id/w3_odczytane"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="0" />
+
+                <Button
+                    android:onClick="obslugaKlikniecia"
+                    android:id="@+id/w3_sprawdz"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="SPRAWDŹ" />
+
+                <Button
+                    android:onClick="obslugaKlikniecia"
+                    android:id="@+id/w3_ok"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="OK" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/w4"
+                    style="@style/parametr"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="Waga 4" />
+
+                <EditText
+                    android:id="@+id/w4_wpisz"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="W4"
+                    android:inputType="number" />
+
+
+                <TextView
+                    android:id="@+id/w4_odczytane"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="0" />
+
+                <Button
+                    android:onClick="obslugaKlikniecia"
+                    android:id="@+id/w4_sprawdz"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="SPRAWDŹ" />
+
+                <Button
+                    android:onClick="obslugaKlikniecia"
+                    android:id="@+id/w4_ok"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="OK" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/w5"
+                    style="@style/parametr"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="Waga 5" />
+
+                <EditText
+                    android:id="@+id/w5_wpisz"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="W5"
+                    android:inputType="number" />
+
+
+                <TextView
+                    android:id="@+id/w5_odczytane"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="0" />
+
+                <Button
+                    android:onClick="obslugaKlikniecia"
+                    android:id="@+id/w5_sprawdz"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="SPRAWDŹ" />
+
+                <Button
+                    android:onClick="obslugaKlikniecia"
+                    android:id="@+id/w5_ok"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="OK" />
+            </TableRow>
+
+        </TableLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/b_automatyczna_start"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:onClick="obslugaKlikniecia"
+                android:text="START"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.478" />
+
+            <Button
+                android:id="@+id/b_automatyczna_stop"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="32dp"
+                android:onClick="obslugaKlikniecia"
+                android:text="STOP"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.478" />
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
